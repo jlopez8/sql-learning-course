@@ -42,6 +42,7 @@ ALTER TABLE blogDB.Comentarios
 DROP FOREIGN KEY comentarios_ibfk_1
 
 # Inserting Datos
-
+INSERT INTO usarios (Nombre, Email, FechaRegistro) VALUES
+("Juan", "juan.ejemplo@hotmail.com", "2024-06-01")
 
 # 
