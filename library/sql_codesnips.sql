@@ -40,6 +40,12 @@ DROP FOREIGN KEY comentarios_ibfk_1
 # ALTER / MODIFY. MySQL uses modify.
 ALTER TABLE `BlogDB`.`Comentarios` MODIFY COLUMN `UserID` INT;
 
+## Change TABLE NAME
+ALTER TABLE jeugos RENAME TO juegos;alter
+
+## CHANGE COLUMN NAME
+ALTER TABLE juegos RENAME COLUMN DesarroladorID TO DesarrolladorID;
+
 # Specify Foreign Key
 ALTER TABLE `BlogDB`.`Comentarios` 
 ADD CONSTRAINT fk_user_id # descriptive name
