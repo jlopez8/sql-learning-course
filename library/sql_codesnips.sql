@@ -111,3 +111,21 @@ group by serie_id;
 ### This group statement allows the selection of the group by column using the order of the selected
 ### variables in appearance order.
 select serie_id, count(episodio_id) as count_episodios from episodios group by 1;
+
+
+## HAVING
+### Having statements follow group by. They are additional conditional.
+### Constraint statements 
+### order is: WHERE (for non agg), GROUP BY (specify non-agg -> agg relation), HAVING (specify agg condition) 
+SELECT serie_id, count(episodio_id) as no_episodios  
+from episodios
+group by serie_id
+having count(episodio_id) > 10;
+
+### Here is a perfect example of the combination of constraints. 
+### order is: WHERE (for non agg), GROUP BY (specify non-agg -> agg relation), HAVING (specify agg condition) 
+select temporada, sum(duracion) as duracion_total
+from episodios
+where serie_id = 2
+group by temporada
+having sum(duracion) > 400
