@@ -34,3 +34,98 @@ FOREIGN KEY (UserID) REFERENCES Usarios(UserId);
 ## The pattern is: table (<COL1> <COL2> <COL3>) VALUES (<VAL1>, <VAL2>, <VAL3>)
 INSERT INTO usarios (Nombre, Email, FechaRegistro) VALUES
 ("Juan", "juan.ejemplo@hotmail.com", "2024-06-01")
+
+# Quering
+
+## selections
+select titulo, temporada from Episodios;
+
+SELECT DISTINCT genero FROM series;
+
+## ORDERING
+select titulo, duracion from episodios order by duracion;
+select titulo, duracion from episodios order by duracion asc;
+select titulo, duracion from episodios order by duracion desc;
+select distinct año_lanzamiento from series order by año_lanzamiento desc;
+
+## LIMIT
+SELECT * FROM EPISODIOS limit 10;
+select titulo, duracion from episodios order by duracion desc limit 5;
+select nombre from actores order by actor_id asc limit 5;
+
+## WHERE
+select * from series where genero = "Drama";
+
+## COMPARISONS >, < GREATER THAN LESS THAN !=
+select titulo, año_lanzamiento from series where año_lanzamiento > 2020;
+select titulo, año_lanzamiento from series where año_lanzamiento != 2020;
+
+## LOGICAL operators
+select titulo, duracion, rating_imdb 
+from episodios 
+where (
+	duracion > 45 
+    and
+	rating_imdb > 9
+);
+
+select * 
+from series 
+where (
+    genero = "Drama" 
+    or
+    genero = "Ciencia ficción"
+);
+
+SELECT * 
+from series
+where (
+	genero NOT IN ("COMEDIA", "FANTASIA")
+);
+
+## LIKE
+select * from series
+where titulo like "%The%";
+
+## Aggregates
+
+### SUM. any of these can be applied IMMEDIATELY to column in question.
+SELECT SUM(duracion) FROM episodios;
+SELECT SUM(duracion) AS suma_duracion from episodios;
+
+select sum(duracion) 
+as suma_duracion 
+from episodios
+where (
+	serie_id = 5
+);
+
+## Group By
+### Group by's must accompany aggregate functions in order to properly attach tthem to desired columns
+### for example, avg duracion will compute the average, but when in combination with a group by
+### it will do so PER GROUP vs TOTAL. 
+select  serie_id, avg(duracion) as avg_duracion, sum(duracion) as suma_duracion from episodios
+where serie_id in (1,2)
+group by serie_id;
+
+### This group statement allows the selection of the group by column using the order of the selected
+### variables in appearance order.
+select serie_id, count(episodio_id) as count_episodios from episodios group by 1;
+
+
+## HAVING
+### Having statements follow group by. They are additional conditional.
+### Constraint statements 
+### order is: WHERE (for non agg), GROUP BY (specify non-agg -> agg relation), HAVING (specify agg condition) 
+SELECT serie_id, count(episodio_id) as no_episodios  
+from episodios
+group by serie_id
+having count(episodio_id) > 10;
+
+### Here is a perfect example of the combination of constraints. 
+### order is: WHERE (for non agg), GROUP BY (specify non-agg -> agg relation), HAVING (specify agg condition) 
+select temporada, sum(duracion) as duracion_total
+from episodios
+where serie_id = 2
+group by temporada
+having sum(duracion) > 400
