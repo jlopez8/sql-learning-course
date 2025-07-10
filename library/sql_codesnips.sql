@@ -37,6 +37,11 @@ INSERT INTO usarios (Nombre, Email, FechaRegistro) VALUES
 
 # Quering
 
+## USE
+### makes it so you can focus on a particular schema without constantly having
+### having to refer to it.
+use <TAB_NAME>;
+
 ## selections
 select titulo, temporada from Episodios;
 
@@ -112,7 +117,6 @@ group by serie_id;
 ### variables in appearance order.
 select serie_id, count(episodio_id) as count_episodios from episodios group by 1;
 
-
 ## HAVING
 ### Having statements follow group by. They are additional conditional.
 ### Constraint statements 
@@ -128,4 +132,16 @@ select temporada, sum(duracion) as duracion_total
 from episodios
 where serie_id = 2
 group by temporada
-having sum(duracion) > 400
+having sum(duracion) > 400;
+
+# Querying - JOINS
+
+## Inner Join
+## Supone que queremos unir una tabla de series con la tabla de actuaciones 
+## usando un inner join... cual es la clave en comun?
+## 'serie_id'
+SELECT * From Series
+inner join actuaciones
+on series.serie_id = actuaciones.serie_id;
+
+
