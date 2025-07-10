@@ -136,12 +136,81 @@ having sum(duracion) > 400;
 
 # Querying - JOINS
 
-## Inner Join
+## Join
 ## Supone que queremos unir una tabla de series con la tabla de actuaciones 
 ## usando un inner join... cual es la clave en comun?
 ## 'serie_id'
 SELECT * From Series
-inner join actuaciones
+ join actuaciones
 on series.serie_id = actuaciones.serie_id;
 
+SELECT 
+series.titulo,
+actuaciones.personaje 
+From Series
+join actuaciones
+on series.serie_id = actuaciones.serie_id;
+
+SELECT 
+s.titulo,
+a.personaje 
+From Series as s
+join actuaciones as a
+on s.serie_id = a.serie_id;
+
+## Join / inner join
+### join and inner join are the same...
+### can also alias for a less verbose query.
+SELECT 
+s.titulo,
+a.personaje 
+From Series as s
+inner join actuaciones as a
+on s.serie_id = a.serie_id;
+
+## Join / adding where
+select
+s.titulo,
+a.personaje
+from series as s
+inner join actuaciones as a
+on s.serie_id = a.serie_id
+where s.titulo = "The Crown";
+
+### no need to alias columns that exist in only one table involved in 
+### the join operation.
+select
+titulo,
+personaje
+from series as s
+inner join actuaciones as a
+on s.serie_id = a.serie_id
+where titulo = "The Crown";
+
+## Join / w limit
+select * -- todos los campos
+from series as s
+inner join episodios as e
+on s.serie_id = e.serie_id
+limit 10;
+
+## Left Join
+select 
+s.titulo as "Titulo de la serie",
+e.titulo as "Titulo de Episodio"
+from series as s
+left join episodios as e
+on s.serie_id = e.serie_id
+order by s.titulo;
+
+## Left Join / w More complicated structure
+select
+s.titulo as "Título de la Serie",
+e.titulo as "Título del Episodio",
+rating_imdb as "Rating IMDB"
+from series as s
+left join episodios as e
+on s.serie_id = e.serie_id
+where s.titulo = "Stranger Things"
+order by e.rating_imdb desc;
 
