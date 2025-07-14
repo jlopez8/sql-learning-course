@@ -225,5 +225,30 @@ ON s.serie_id = e.serie_id
 WHERE e.duracion > 30
 ORDER BY s.titulo;
 
+# Unions and Union all
+select * 
+from series
+where genero = 'ciencia ficción'
+union all
+select * 
+from series
+where genero = 'drama';
+
+## using only union
+select 
+titulo
+from episodios
+where duracion > 20 
+union 
+select
+titulo 
+from episodios
+where rating_imdb > 9;
+
+### you can do the same query with 'where'
+select 
+titulo
+from episodios
+where (duracion > 20 or rating_imdb > 9)
 
 

@@ -165,3 +165,62 @@ union all
 select * from series
 where genero = 'Drama'
 order by titulo;
+
+# practica 2
+select * 
+from series
+where genero = 'ciencia ficción'
+union all
+select * 
+from series
+where genero = 'drama';
+
+## using only union
+select 
+titulo
+from episodios
+where duracion > 20 
+union 
+select
+titulo 
+from episodios
+where rating_imdb > 9;
+
+### you can do the same query with 'where'
+select 
+titulo
+from episodios
+where (duracion > 20 or rating_imdb > 9);
+
+## Project of the day.
+
+### question 1
+select genero, count(genero) as count_genero
+from series
+group by genero
+order by count_genero desc;
+
+### Question 2
+select 
+	s.titulo as "titulo de la serie", 
+	count(e.episodio_id) as "conta de episodio",
+    avg(e.rating_imdb) as "avg_rating"
+from series as s
+left join episodios as e
+on s.serie_id = e.serie_id
+group by s.titulo
+order by avg(e.rating_imdb) desc
+limit 3;
+
+### Pregunta 3
+
+-- where titulo = "Stranger Things"; 
+select sum(e.duracion) as "Total Duracion"
+from series as s
+left join episodios as e
+on s.serie_id = e.serie_id
+where s.titulo = "Stranger things"
+
+
+
+
