@@ -120,4 +120,48 @@ on s.serie_id = e.serie_id
 where s.titulo = "Stranger Things"
 order by e.rating_imdb desc;
 
+# RIGHT JOINS
+use netflixdb;
+SELECT 
+	series.titulo as "Titulo de la Series",
+    episodios.titulo as "Titulo del Episodio"
+FROM episodios
+RIGHT JOIN series
+ON episodios.serie_id = series.serie_id
+ORDER BY series.titulo;
 
+## practica 1
+select
+    s.titulo as "Título de la Serie",
+    e.titulo as "Título del Episodio",
+    duracion as "Duración" -- where is this one coming from?
+FROM series as s
+RIGHT JOIN episodios as e
+ON s.serie_id = e.serie_id
+WHERE e.duracion > 30
+ORDER BY s.titulo;
+
+# UNION Y UNION ALL
+use netflixdb;
+
+select * from series
+where genero = 'ciencia ficción'
+-- now lets try to join with another genero using union all without dupes.
+union all 
+select * from series
+where genero = 'Drama';
+
+-- we can test the union all dupes thing..
+select * from series
+where genero = 'ciencia ficción'
+
+union all
+
+select * from series 
+where genero = 'Drama'
+
+union all
+
+select * from series
+where genero = 'Drama'
+order by titulo;

@@ -214,3 +214,16 @@ on s.serie_id = e.serie_id
 where s.titulo = "Stranger Things"
 order by e.rating_imdb desc;
 
+# Right Joins
+select
+    s.titulo as "Título de la Serie",
+    e.titulo as "Título del Episodio",
+    duracion as "Duración" -- where is this one coming from?
+FROM series as s
+RIGHT JOIN episodios as e
+ON s.serie_id = e.serie_id
+WHERE e.duracion > 30
+ORDER BY s.titulo;
+
+
+
