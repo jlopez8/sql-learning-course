@@ -37,6 +37,11 @@ INSERT INTO usarios (Nombre, Email, FechaRegistro) VALUES
 
 # Quering
 
+## USE
+### makes it so you can focus on a particular schema without constantly having
+### having to refer to it.
+use <TAB_NAME>;
+
 ## selections
 select titulo, temporada from Episodios;
 
@@ -112,7 +117,6 @@ group by serie_id;
 ### variables in appearance order.
 select serie_id, count(episodio_id) as count_episodios from episodios group by 1;
 
-
 ## HAVING
 ### Having statements follow group by. They are additional conditional.
 ### Constraint statements 
@@ -128,4 +132,123 @@ select temporada, sum(duracion) as duracion_total
 from episodios
 where serie_id = 2
 group by temporada
-having sum(duracion) > 400
+having sum(duracion) > 400;
+
+# Querying - JOINS
+
+## Join
+## Supone que queremos unir una tabla de series con la tabla de actuaciones 
+## usando un inner join... cual es la clave en comun?
+## 'serie_id'
+SELECT * From Series
+ join actuaciones
+on series.serie_id = actuaciones.serie_id;
+
+SELECT 
+series.titulo,
+actuaciones.personaje 
+From Series
+join actuaciones
+on series.serie_id = actuaciones.serie_id;
+
+SELECT 
+s.titulo,
+a.personaje 
+From Series as s
+join actuaciones as a
+on s.serie_id = a.serie_id;
+
+## Join / inner join
+### join and inner join are the same...
+### can also alias for a less verbose query.
+SELECT 
+s.titulo,
+a.personaje 
+From Series as s
+inner join actuaciones as a
+on s.serie_id = a.serie_id;
+
+## Join / adding where
+select
+s.titulo,
+a.personaje
+from series as s
+inner join actuaciones as a
+on s.serie_id = a.serie_id
+where s.titulo = "The Crown";
+
+### no need to alias columns that exist in only one table involved in 
+### the join operation.
+select
+titulo,
+personaje
+from series as s
+inner join actuaciones as a
+on s.serie_id = a.serie_id
+where titulo = "The Crown";
+
+## Join / w limit
+select * -- todos los campos
+from series as s
+inner join episodios as e
+on s.serie_id = e.serie_id
+limit 10;
+
+## Left Join
+select 
+s.titulo as "Titulo de la serie",
+e.titulo as "Titulo de Episodio"
+from series as s
+left join episodios as e
+on s.serie_id = e.serie_id
+order by s.titulo;
+
+## Left Join / w More complicated structure
+select
+s.titulo as "Título de la Serie",
+e.titulo as "Título del Episodio",
+rating_imdb as "Rating IMDB"
+from series as s
+left join episodios as e
+on s.serie_id = e.serie_id
+where s.titulo = "Stranger Things"
+order by e.rating_imdb desc;
+
+# Right Joins
+select
+    s.titulo as "Título de la Serie",
+    e.titulo as "Título del Episodio",
+    duracion as "Duración" -- where is this one coming from?
+FROM series as s
+RIGHT JOIN episodios as e
+ON s.serie_id = e.serie_id
+WHERE e.duracion > 30
+ORDER BY s.titulo;
+
+# Unions and Union all
+select * 
+from series
+where genero = 'ciencia ficción'
+union all
+select * 
+from series
+where genero = 'drama';
+
+## using only union
+select 
+titulo
+from episodios
+where duracion > 20 
+union 
+select
+titulo 
+from episodios
+where rating_imdb > 9;
+
+### you can do the same query with 'where'
+select 
+titulo
+from episodios
+where (duracion > 20 or rating_imdb > 9)
+
+
