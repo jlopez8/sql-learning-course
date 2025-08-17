@@ -249,6 +249,50 @@ where rating_imdb > 9;
 select 
 titulo
 from episodios
-where (duracion > 20 or rating_imdb > 9)
+where (duracion > 20 or rating_imdb > 9);
 
+### Where and CAST
+### We can do this so we have exactly dates, especially when 
+### you need to make sure you are using the variable type you want.
+select * from episodios
+where cast(fecha_estreno as date) > "2010-01-01";
 
+# MYSQL does not like casting the same way others might
+# In this case we will ue 'as char' as 'as text' although latter may work well in other
+# interpreters
+select titulo, cast(año_lanzamiento as char)
+from series;
+select fecha_estreno, YEAR(fecha_estreno), MONTH(fecha_estreno)
+from episodios;
+
+# Dateadd 
+select fecha_estreno,
+date_add(fecha_estreno, interval 30 day) as "fecha_estreno + 30 day",
+date_add(fecha_estreno, interval 1 MONTH) as "fecha_estreno + 1 mo"
+from episodios;
+
+# Datediff and curdate
+select *,
+datediff(CURDATE(), fecha_estreno) as diasdeestreno
+from episodios;
+
+# Strings and TEXTS
+# UPPER, LOWER: go to mayuscula or miniscula for letters in text
+select UPPER(titulo) from series;
+select LOWER(nombre) from Actores;
+
+# CONCAT: concatenate all elements in parentheses
+select CONCAT(titulo, " (", año_lanzamiento, ")") as titulo_año 
+from series;
+
+# SUBSTRING take some characters of a string 
+select SUBSTRING(titulo, 1, 5) as extracted_titulo from episodios;
+
+#Length: counts length of string (character count).
+select titulo, length(titulo) as length_titulo from series;
+
+#Left and RIGHT: substrings but starting from beginning or end:
+select titulo,
+left(titulo, 3) as inicio_titulo,
+right(titulo, 3) as fin_titulo
+from series;
