@@ -141,4 +141,50 @@ select SUBSTRING(titulo, 1, 5) as extracted_titulo from episodios;
 ## Length: counts length of string (character count).
 select titulo, length(titulo) as length_titulo from series;
 
-## 
+## Left and RIGHT: substrings but starting from beginning or end:
+select titulo,
+left(titulo, 3) as inicio_titulo,
+right(titulo, 3) as fin_titulo
+from series;
+
+# PRACTICE ROUND
+select
+UPPER(titulo) AS titulo_mayusculas
+FROM
+series;
+
+# Practice round 2
+select
+substr(titulo, 1, 5) as primeros_cinco_caracteres
+from
+episodios;
+
+# Math functions
+## Round
+select 
+titulo,
+duracion,
+duracion / 60.0 as horas_completa, 
+round(duracion / 60.0, 0) as horas_completa_redodeado
+from episodios;
+
+## Ceiling
+select
+titulo,
+duracion,
+ceiling(duracion / 60.0) as horas_completas
+from episodios;
+
+## Floor
+select
+titulo,
+duracion,
+floor(duracion / 60) as horas_completas
+from episodios;
+
+# Practica for math functions
+select ceiling(rating_imdb) as rating_redondeado
+from episodios;
+
+
+

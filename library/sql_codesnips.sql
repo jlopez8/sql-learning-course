@@ -296,3 +296,20 @@ select titulo,
 left(titulo, 3) as inicio_titulo,
 right(titulo, 3) as fin_titulo
 from series;
+
+# Math operations
+# Round
+select 
+titulo,
+duracion,
+duracion / 60.0 as horas_completa, 
+round(duracion / 60.0, 0) as horas_completa_redodeado
+from episodios;
+
+## Ceiling / Floor
+select
+titulo,
+duracion,
+ceiling(duracion / 60.0) as horas_completas,
+floor(duracion / 60) as horas_completas
+from episodios;
